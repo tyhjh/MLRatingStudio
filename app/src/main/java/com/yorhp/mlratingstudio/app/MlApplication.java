@@ -40,7 +40,7 @@ public class MlApplication extends android.app.Application {
     private void initPicasso() {
         Picasso picasso = new Picasso.Builder(this)
                 .memoryCache(new LruCache(10 << 20))//设置内存缓存大小10M
-                .indicatorsEnabled(false) //设置左上角标记，主要用于测试
+                //.indicatorsEnabled(false) //设置左上角标记，主要用于测试
                 .build();
         Picasso.setSingletonInstance(picasso);
     }

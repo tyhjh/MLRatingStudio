@@ -79,7 +79,7 @@ public class BaseActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        // android6.0+系统
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (dark) {
                 getWindow().getDecorView().setSystemUiVisibility(
