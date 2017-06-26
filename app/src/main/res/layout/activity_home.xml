@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/bggray"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.yorhp.mlratingstudio.mvp.view.myview.CoordinatorMenu
+        android:id="@+id/cording_meun"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/menu_home"/>
+
+        <include layout="@layout/layout_activity"/>
+
+    </com.yorhp.mlratingstudio.mvp.view.myview.CoordinatorMenu>
+
+</FrameLayout>
+
+

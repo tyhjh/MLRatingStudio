@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <!--直接生效，状态栏文字颜色变成黑色，非沉浸式-->
+        <!--<item name="android:windowLightStatusBar">true</item>-->
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+</resources>
