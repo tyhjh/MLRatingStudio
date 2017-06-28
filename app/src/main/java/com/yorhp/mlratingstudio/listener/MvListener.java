@@ -2,7 +2,10 @@ package com.yorhp.mlratingstudio.listener;
 
 import com.shuyu.gsyvideoplayer.listener.StandardVideoAllCallBack;
 
-public class SampleListener implements StandardVideoAllCallBack {
+
+//视频播放器的监听
+
+public class MvListener implements StandardVideoAllCallBack {
 
     @Override
     public void onClickStartIcon(String url, Object... objects) {

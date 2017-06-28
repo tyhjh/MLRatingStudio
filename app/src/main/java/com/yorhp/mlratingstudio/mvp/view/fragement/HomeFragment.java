@@ -15,6 +15,14 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.yorhp.mlratingstudio.R;
+import com.yorhp.mlratingstudio.dagger.component.DaggerHomeFrageComponent;
+import com.yorhp.mlratingstudio.dagger.modules.HomeFrageModules;
+import com.yorhp.mlratingstudio.mvp.model.entity.News;
+import com.yorhp.mlratingstudio.mvp.model.entity.Recommend;
+import com.yorhp.mlratingstudio.mvp.presenter.NewsListener;
+import com.yorhp.mlratingstudio.mvp.presenter.RecommendListener;
+import com.yorhp.mlratingstudio.mvp.presenter.impl.NewsPresenter;
+import com.yorhp.mlratingstudio.mvp.presenter.impl.RecommendPresenter;
 import com.yorhp.mlratingstudio.mvp.view.activity.VideoActivity_;
 import com.yorhp.mlratingstudio.mvp.view.adapter.RecommendAdapter;
 import com.yorhp.mlratingstudio.mvp.view.myview.CoordinatorMenu;
@@ -28,21 +36,30 @@ import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+
 import me.crosswall.lib.coverflow.CoverFlow;
 import me.crosswall.lib.coverflow.core.PagerContainer;
 
 @EFragment(R.layout.fragment_home)
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements NewsListener, RecommendListener {
 
     CoordinatorMenu coordingMenu;
 
-    ArrayList<String> aray = new ArrayList<>();
+    ArrayList<News> newsArrayList = new ArrayList<News>();
+    ArrayList<Recommend> recommendArrayList = new ArrayList<Recommend>();
 
     ViewPager vp_news;
 
     FragmentPagerAdapter fragmentPagerAdapter;
 
     RecommendAdapter recommendAdapter;
+
+    @Inject
+    NewsPresenter newsPresenter;
+
+    @Inject
+    RecommendPresenter recommendPresenter;
 
     @ViewById
     PagerContainer container_news;
@@ -57,20 +74,25 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        DaggerHomeFrageComponent.builder()
+                .homeFrageModules(new HomeFrageModules(this))
+                .build().inject(this);
     }
 
     @AfterViews
     void afterViews() {
+        //初始化顶部头像
         Glide.with(this).load("http://pic1.ytqmx.com:82/2015/0908/06/02.jpg!960.jpg").apply(GlideOption.getOption()).into(iv_homebg);
         initNews();
         initRecommend();
-        updateNews();
+        newsPresenter.getNews();
+        recommendPresenter.getRecommend();
     }
 
     private void initRecommend() {
-        recommendAdapter=new RecommendAdapter(aray,getActivity());
+        recommendAdapter = new RecommendAdapter(newsArrayList, getActivity());
         rcyl_recommend.setAdapter(recommendAdapter);
-        rcyl_recommend.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false));
+        rcyl_recommend.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
 
         rcyl_recommend.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -83,10 +105,10 @@ public class HomeFragment extends Fragment {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 LinearLayoutManager lm = (LinearLayoutManager) recyclerView.getLayoutManager();
-                int firstVisible=lm.findFirstVisibleItemPosition();
-                if(firstVisible==0){
+                int firstVisible = lm.findFirstVisibleItemPosition();
+                if (firstVisible == 0) {
                     coordingMenu.requestDisallowInterceptTouchEvent(false);
-                }else {
+                } else {
                     coordingMenu.requestDisallowInterceptTouchEvent(true);
                 }
             }
@@ -94,32 +116,16 @@ public class HomeFragment extends Fragment {
     }
 
     @Click
-    void iv_menu(){
-        if(coordingMenu.isOpened())
+    void iv_menu() {
+        if (coordingMenu.isOpened())
             coordingMenu.closeMenu();
         else
             coordingMenu.openMenu();
     }
 
     @Click
-    void iv_search(){
+    void iv_search() {
         startActivity(new Intent(getActivity(), VideoActivity_.class));
-    }
-
-    //更新news
-    @UiThread()
-    void updateNews() {
-        aray.add("sss");
-        aray.add("sss");
-        aray.add("sss");
-        aray.add("sss");
-        aray.add("sss");
-        aray.add("sss");
-        aray.add("sss");
-        aray.add("sss");
-        fragmentPagerAdapter.notifyDataSetChanged();
-        vp_news.setCurrentItem(1);
-        recommendAdapter.notifyDataSetChanged();
     }
 
     //初始化news
@@ -140,16 +146,16 @@ public class HomeFragment extends Fragment {
         fragmentPagerAdapter = new FragmentPagerAdapter(getActivity().getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
-                OverlapFragment fragment = new OverlapFragment();
-                if (aray != null && aray.size() > position) {
-                    fragment.setAuction(aray.get(position));
+                NewsFragment fragment = new NewsFragment();
+                if (newsArrayList != null && newsArrayList.size() > position) {
+                    fragment.setAuction(newsArrayList.get(position));
                 }
                 return fragment;
             }
 
             @Override
             public int getCount() {
-                return aray.size();
+                return newsArrayList.size();
             }
         };
         vp_news.setAdapter(fragmentPagerAdapter);
@@ -163,5 +169,46 @@ public class HomeFragment extends Fragment {
 
     public void setCoordingMenu(CoordinatorMenu coordingMenu) {
         this.coordingMenu = coordingMenu;
+    }
+
+    @Override
+    public void newsGetOk(ArrayList<News> newsArrayList) {
+        newsArrayList.addAll(newsArrayList);
+
+        fragmentPagerAdapter.notifyDataSetChanged();
+        vp_news.setCurrentItem(1);
+    }
+
+    @Override
+    public void newsGetFail() {
+        newsArrayList.add(new News(0,1,"不知道","不知道"));
+        newsArrayList.add(new News(0,1,"不知道","不知道"));
+        newsArrayList.add(new News(0,1,"不知道","不知道"));
+        newsArrayList.add(new News(0,1,"不知道","不知道"));
+        newsArrayList.add(new News(0,1,"不知道","不知道"));
+        newsArrayList.add(new News(0,1,"不知道","不知道"));
+        newsArrayList.add(new News(0,1,"不知道","不知道"));
+
+        fragmentPagerAdapter.notifyDataSetChanged();
+        vp_news.setCurrentItem(1);
+    }
+
+
+    @Override
+    public void getRecommendOk(ArrayList<Recommend> recommends) {
+        recommendArrayList.addAll(recommends);
+        recommendAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void getRecommendFail() {
+        recommendArrayList.add(new Recommend(0,"不知道","不知道"));
+        recommendArrayList.add(new Recommend(0,"不知道","不知道"));
+        recommendArrayList.add(new Recommend(0,"不知道","不知道"));
+        recommendArrayList.add(new Recommend(0,"不知道","不知道"));
+        recommendArrayList.add(new Recommend(0,"不知道","不知道"));
+        recommendArrayList.add(new Recommend(0,"不知道","不知道"));
+
+        recommendAdapter.notifyDataSetChanged();
     }
 }

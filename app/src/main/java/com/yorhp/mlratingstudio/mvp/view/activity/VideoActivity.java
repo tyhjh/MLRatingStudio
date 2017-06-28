@@ -12,7 +12,7 @@ import com.shuyu.gsyvideoplayer.video.NormalGSYVideoPlayer;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 import com.yorhp.mlratingstudio.R;
 import com.yorhp.mlratingstudio.app.BaseActivity;
-import com.yorhp.mlratingstudio.listener.SampleListener;
+import com.yorhp.mlratingstudio.listener.MvListener;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -71,7 +71,7 @@ public class VideoActivity extends BaseActivity {
             }
         });
 
-        detailPlayer.setStandardVideoAllCallBack(new SampleListener() {
+        detailPlayer.setStandardVideoAllCallBack(new MvListener() {
             @Override
             public void onPrepared(String url, Object... objects) {
                 super.onPrepared(url, objects);

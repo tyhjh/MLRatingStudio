@@ -11,6 +11,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.yorhp.mlratingstudio.R;
+import com.yorhp.mlratingstudio.mvp.model.entity.News;
 import com.yorhp.mlratingstudio.util.image.GlideOption;
 import com.yorhp.mlratingstudio.util.image.ImageUtil;
 import com.yorhp.mlratingstudio.util.image.ShadowUtil;
@@ -23,11 +24,11 @@ import java.util.ArrayList;
 
 public class RecommendAdapter extends RecyclerView.Adapter<RecommendAdapter.ViewHolder> {
 
-    ArrayList<String> arrayList;
+    ArrayList<News> arrayList;
     Context context;
     LayoutInflater inflater;
 
-    public RecommendAdapter(ArrayList<String> arrayList, Context context) {
+    public RecommendAdapter(ArrayList<News> arrayList, Context context) {
         this.arrayList = arrayList;
         this.context = context;
         inflater = LayoutInflater.from(context);

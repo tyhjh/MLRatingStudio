@@ -31,10 +31,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class HomeActivity extends BaseActivity implements CoordinatorMenu.OnMenuChangeListener {
 
     HomeFragment_ home;
+    OurFragment_ our;
 
     @ViewById
     CoordinatorMenu cording_meun;
-
 
     @ViewById
     ImageView iv_home, iv_learn, iv_our, iv_shop;
@@ -91,7 +91,7 @@ public class HomeActivity extends BaseActivity implements CoordinatorMenu.OnMenu
                     case 1:
                         return new LearnFragment_();
                     case 2:
-                        return new OurFragment_();
+                        return our;
                     case 3:
                         return new ShopFragment_();
                     default:
@@ -126,6 +126,7 @@ public class HomeActivity extends BaseActivity implements CoordinatorMenu.OnMenu
             }
         });
         home.setCoordingMenu(cording_meun);
+        our.setCoordingMenu(cording_meun);
     }
 
     //初始化bottomBar
@@ -169,6 +170,7 @@ public class HomeActivity extends BaseActivity implements CoordinatorMenu.OnMenu
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         home = new HomeFragment_();
+        our = new OurFragment_();
     }
 
     long currentTime = 0;

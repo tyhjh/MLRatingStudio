@@ -6,4 +6,6 @@
     <dimen name="nav_header_height">160dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="overlap_pager_margin">7dp</dimen>
+    <dimen name="head_pager_margin">10dp</dimen>
+    <dimen name="about_pager_margin">10dp</dimen>
 </resources>

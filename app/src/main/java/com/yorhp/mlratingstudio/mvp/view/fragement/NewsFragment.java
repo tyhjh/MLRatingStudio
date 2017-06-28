@@ -10,18 +10,19 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.yorhp.mlratingstudio.R;
+import com.yorhp.mlratingstudio.mvp.model.entity.News;
 import com.yorhp.mlratingstudio.util.image.GlideOption;
 import com.yorhp.mlratingstudio.util.image.ShadowUtil;
 
 /**
  * Created by vincentpaing on 6/7/16.
  */
-public class OverlapFragment extends Fragment {
+public class NewsFragment extends Fragment {
 
-    private String auction;
+    private News news;
 
-    public void setAuction(String auction) {
-        this.auction = auction;
+    public void setAuction(News news) {
+        this.news = news;
     }
 
     @Override
@@ -34,7 +35,7 @@ public class OverlapFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.item_news, container, false);
         ImageView iv_news = (ImageView) rootView.findViewById(R.id.iv_news);
         ShadowUtil.getInstance(4,0).action(iv_news);
-        if(auction!=null) {
+        if(news!=null) {
             Glide.with(getActivity()).load("http://pic1.win4000.com/wallpaper/d/589c305d4ef12.jpg").apply(GlideOption.getOption()).into(iv_news);
         }
         return rootView;
